@@ -1,6 +1,5 @@
 import psycopg2
 
-
 class PostgreDbOperations:
     def __init__(self, database, user,
                  password, host, port, autocommit):
@@ -9,7 +8,7 @@ class PostgreDbOperations:
         self.password = password
         self.host = host
         self.port = port
-        self.autocommit = True
+        self.autocommit = autocommit
 
     def connect(self):
         self.connection = psycopg2.connect(dbname=self.database,
@@ -34,5 +33,5 @@ class PostgreDbOperations:
 db_connect = PostgreDbOperations(
     "ibb_ulasim", 'postgres', '44410', '127.0.0.1', '5432', True)
 db_connect.connect()
-print(db_connect.query("SELECT * ;"))
+print(db_connect.query("SELECT * FROM ulasim LIMIT 1 ;"))
 db_connect.close()
