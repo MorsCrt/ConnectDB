@@ -12,9 +12,11 @@ class PostgreDbOperations:
         
     def connect(self):
         self.connection = psycopg2.connect(dbname=self.database,
-                                           user=self.user,password=self.password,
-                                           host=self.host,port=self.port)
-        
+                                           user=self.user,
+                                           password=self.password,
+                                           host=self.host,
+                                           port=self.port)
+
         self.connection.autocommit = self.autocommit
         self.cursor = self.connection.cursor()
 
