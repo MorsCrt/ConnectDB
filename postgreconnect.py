@@ -1,4 +1,6 @@
 import psycopg2
+import logging
+
 
 class PostgreDbOperations:
     def __init__(self, database, user,
@@ -11,14 +13,17 @@ class PostgreDbOperations:
         self.autocommit = autocommit
 
     def connect(self):
-        self.connection = psycopg2.connect(dbname=self.database,
-                                           user=self.user,
-                                           password=self.password,
-                                           host=self.host,
-                                           port=self.port)
-
-        self.connection.autocommit = self.autocommit
-        self.cursor = self.connection.cursor()
+        try:
+            self.connection = psycopg2.connect(dbname=self.database,
+                                            user=self.user,
+                                            password=self.password,
+                                            host=self.host,
+                                            port=self.port)
+        except (psycopg2.OperationalError,AttributeError):
+            print("CHECK THE CONNECTION ATTRIBUTES YOU GIVEN!")
+        finally:
+            self.connection.autocommit = self.autocommit
+            self.cursor = self.connection.cursor()
 
     def query(self, query):
         self.cursor.execute(query)
@@ -29,9 +34,3 @@ class PostgreDbOperations:
         self.cursor.close()
         self.connection.close()
 
-
-db_connect = PostgreDbOperations(
-    "ibb_ulasim", 'postgres', '44410', '127.0.0.1', '5432', True)
-db_connect.connect()
-print(db_connect.query("SELECT * FROM ulasim LIMIT 1 ;"))
-db_connect.close()
