@@ -20,7 +20,7 @@ class PostgreDbOperations:
                                             host=self.host,
                                             port=self.port)
         except (psycopg2.OperationalError,AttributeError):
-            print("CHECK THE CONNECTION ATTRIBUTES YOU GIVEN!")
+            print("CHECK THE CONNECTION ATTRIBUTES YOU GIVEN!!!")
         finally:
             self.connection.autocommit = self.autocommit
             self.cursor = self.connection.cursor()
